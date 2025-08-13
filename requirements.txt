@@ -3,5 +3,6 @@ python-dotenv
 langchain
 langchain-community
 langchain-core
-chromadb
 langchain-google-genai
+langchain-groq
+chromadb

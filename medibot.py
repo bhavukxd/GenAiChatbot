@@ -11,9 +11,20 @@ from langchain.memory import ConversationBufferWindowMemory
 from langchain.chains import ConversationalRetrievalChain
 
 # ====== Environment Setup ======
-load_dotenv()
-os.environ['GOOGLE_API_KEY'] = os.getenv("GOOGLE_API_KEY")
-groq_api_key = os.getenv("GROQ_API_KEY")
+
+
+# Load local .env only if it exists (local run)
+if os.path.exists(".env"):
+    load_dotenv()
+
+# Fetch keys (first from env, then from Streamlit secrets if deployed)
+os.environ['GOOGLE_API_KEY'] = os.getenv("GOOGLE_API_KEY") or st.secrets.get("GOOGLE_API_KEY")
+groq_api_key = os.getenv("GROQ_API_KEY") or st.secrets.get("GROQ_API_KEY")
+
+# Optional: check if keys are missing
+if not os.environ['GOOGLE_API_KEY'] or not groq_api_key:
+    st.error("❌ API keys missing. Please set them in `.env` (local) or Streamlit Secrets (deployment).")
+    st.stop()
 
 # ====== Background Image Setup ======
 def get_base64_bg(image_path):

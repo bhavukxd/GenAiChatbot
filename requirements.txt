@@ -1,4 +1,6 @@
 streamlit
 python-dotenv
 langchain
-# any other libraries your chatbot uses
+langchain-community
+langchain-core
+chromadb
